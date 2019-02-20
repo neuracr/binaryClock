@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BinaryClock</string>
+    <string name="dot">dot</string>
+</resources>
