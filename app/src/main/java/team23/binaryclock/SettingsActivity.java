@@ -1,16 +1,9 @@
-package com.example.binaryclock;
+package team23.binaryclock;
 
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.GridLayoutAnimationController;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -31,7 +24,5 @@ public class SettingsActivity extends AppCompatActivity {
                 bit.setActivated(!bit.isActivated());
             }
         });
-
-
     }
 }

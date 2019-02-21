@@ -1,4 +1,4 @@
-package com.example.binaryclock;
+package team23.binaryclock;
 
 import org.junit.Test;
 
