@@ -8,7 +8,10 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="57dp">
 
         <TableRow
             android:id="@+id/r0"
@@ -21,8 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
 
             <ImageView
@@ -31,8 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d02"
@@ -40,8 +43,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d03"
@@ -49,8 +52,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d04"
@@ -58,8 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d05"
@@ -67,8 +70,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
         </TableRow>
 
@@ -83,8 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d11"
@@ -92,8 +95,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d12"
@@ -101,8 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d13"
@@ -110,8 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d14"
@@ -119,8 +122,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d15"
@@ -128,8 +131,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
         </TableRow>
 
         <TableRow
@@ -143,8 +146,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d21"
@@ -152,8 +155,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d22"
@@ -161,8 +164,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d23"
@@ -170,8 +173,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d24"
@@ -179,8 +182,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d25"
@@ -188,8 +191,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
         </TableRow>
 
         <TableRow
@@ -203,8 +206,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d31"
@@ -212,8 +215,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d32"
@@ -221,8 +224,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d33"
@@ -230,8 +233,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d34"
@@ -239,8 +242,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
 
             <ImageView
                 android:id="@+id/d35"
@@ -248,18 +251,38 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:contentDescription="@string/dot"
-                android:background="@drawable/bit_on" />
+                android:background="@drawable/bit"
+                android:contentDescription="@string/dot" />
         </TableRow>
     </TableLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="change"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="201dp" />
+        android:layout_marginBottom="8dp"
+        android:text="next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/change" />
+
+    <TextView
+        android:id="@+id/num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/next"
+        app:layout_constraintStart_toEndOf="@+id/next"
+        app:layout_constraintTop_toTopOf="@+id/next" />
 
 </android.support.constraint.ConstraintLayout>
