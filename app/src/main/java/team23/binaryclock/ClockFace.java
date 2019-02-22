@@ -10,6 +10,7 @@ import android.widget.TableRow;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Defines the main face of the clock, containing some numbers
@@ -48,6 +49,17 @@ public class ClockFace{
             column.add(((TableRow)this.table.getChildAt(i)).getChildAt(number));
         }
         return column;
+    }
+
+    public void setTime(){
+        Calendar now = Calendar.getInstance();
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int min = now.get(Calendar.MINUTE);
+        int sec = now.get(Calendar.SECOND);
+
+        this.h.setNumber(hour);
+        this.m.setNumber(min);
+        this.s.setNumber(sec);
     }
 
 
