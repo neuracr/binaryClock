@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -24,5 +25,10 @@ public class SettingsActivity extends AppCompatActivity {
                 bit.setActivated(!bit.isActivated());
             }
         });
+
+        ClockFace clockFace = new ClockFace((TableLayout)findViewById(R.id.face));
+
     }
+
+
 }
