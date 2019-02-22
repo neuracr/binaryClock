@@ -28,4 +28,18 @@ public class NumberFace {
             }
         }
     }
+
+    public void setNumber(int value){
+        int i=8;
+        while(i >= 0){
+            if (value % 2 != 0){
+                this.bits.get(i).setActivated(true);
+            }
+            else{
+                this.bits.get(i).setActivated(false);
+            }
+            value /= 2;
+            i--;
+        }
+    }
 }
