@@ -21,27 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        TextView tv_number = findViewById(R.id.num);
-        tv_number.setText(""+num);
-
-        Button change = findViewById(R.id.change);
-        change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View bit = findViewById(R.id.d00);
-                bit.setActivated(!bit.isActivated());
-            }
-        });
-
         this.clockFace = new ClockFace((TableLayout)findViewById(R.id.face));
-
-        Button next = findViewById(R.id.next);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clockFace.setTime();
-            }
-        });
 
         final Thread t = new Thread(new Runnable() {
             @Override
@@ -63,7 +43,6 @@ public class SettingsActivity extends AppCompatActivity {
                         Thread.sleep(TICKS_IN_A_ROW * 1000);
                     }
                     catch (InterruptedException e){
-
                     }
                 }
             }
