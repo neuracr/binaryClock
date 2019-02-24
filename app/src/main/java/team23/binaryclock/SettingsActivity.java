@@ -26,7 +26,17 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        ClockFace clockFace = new ClockFace((TableLayout)findViewById(R.id.face));
+        final ClockFace clockFace = new ClockFace((TableLayout)findViewById(R.id.face));
+
+        Button next = findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clockFace.setTime();
+            }
+        });
+
+
 
     }
 

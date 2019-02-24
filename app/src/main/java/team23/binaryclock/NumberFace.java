@@ -30,7 +30,7 @@ public class NumberFace {
     }
 
     public void setNumber(int value){
-        int i=8;
+        int i=7;
         while(i >= 0){
             if (value % 2 != 0){
                 this.bits.get(i).setActivated(true);
