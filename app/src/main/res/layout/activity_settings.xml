@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
-
+<!--
     <TableLayout
         android:id="@+id/face"
         android:layout_width="match_parent"
@@ -256,5 +256,5 @@
                 android:contentDescription="@string/dot" />
         </TableRow>
     </TableLayout>
-
+-->
 </android.support.constraint.ConstraintLayout>

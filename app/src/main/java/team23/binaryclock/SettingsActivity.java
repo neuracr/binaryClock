@@ -20,14 +20,14 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
+/*
         this.clockFace = new ClockFace((TableLayout)findViewById(R.id.face));
 
         final Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 int TICKS_IN_A_ROW = 50;
-                //set the clock for the first time
+                //set the widget_clock for the first time
                 tick.sendEmptyMessage(TICK_MESSAGE);
 
                 //tries to land on the top of each second
@@ -48,8 +48,9 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         t.start();
+        */
     }
-
+/*
     final private Handler tick = new Handler(){
         @Override
         public void handleMessage(Message m){
@@ -61,5 +62,5 @@ public class SettingsActivity extends AppCompatActivity {
         }
     };
 
-
+*/
 }
