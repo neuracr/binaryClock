@@ -11,7 +11,8 @@
         android:maxWidth="30dp"
         android:maxHeight="30dp"
         android:minHeight="30dp"
-        android:contentDescription="bit"/>
+        android:contentDescription="bit"
+        android:clickable="false"/>
     <!--<TextView
         android:id="@+id/bitImage"
         android:layout_width="match_parent"
