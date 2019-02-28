@@ -4,15 +4,13 @@
     android:background="#00000000"
     android:padding="@dimen/widget_margin">
 
-        <GridLayout
-            android:id="@+id/face"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnCount="6"
-            android:rowCount="4"
-            android:columnOrderPreserved="true"
-            android:layout_marginBottom="8dp">
-
+    <GridView
+        android:id="@+id/face"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:numColumns="6"/>
+        <!--
                 <ImageView
                     android:id="@+id/d00"
                     android:layout_width="wrap_content"
@@ -271,12 +269,11 @@
                     android:id="@+id/d35"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_column="5"
+                    android:view_column="5"
                     android:layout_row="3"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bit"
                     android:contentDescription="@string/dot" />
-        </GridLayout>
-
+                    -->
 </RelativeLayout>

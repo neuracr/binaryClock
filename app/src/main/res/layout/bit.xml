@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bitBox"
+    android:layout_width="30dp"
+    android:layout_height="30dp">
+
+    <ImageView
+        android:id="@+id/bitImage"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:maxWidth="30dp"
+        android:maxHeight="30dp"
+        android:minHeight="30dp"
+        android:contentDescription="bit"/>
+    <!--<TextView
+        android:id="@+id/bitImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="hello" />-->
+
+</RelativeLayout>
