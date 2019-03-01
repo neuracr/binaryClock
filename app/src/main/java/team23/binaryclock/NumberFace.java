@@ -1,5 +1,6 @@
 package team23.binaryclock;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -8,16 +9,16 @@ import java.util.ArrayList;
 
 public class NumberFace {
     private int modulo;
-    private int[] bits;
-    private RemoteViews views;
+    private boolean[] bits;
+    private int value;
 
-    public NumberFace(int[] bits, int modulo, RemoteViews views){
+    public NumberFace(int size, int modulo){
         this.modulo = modulo;
-        this.bits = bits;
-        this.views = views;
+        this.bits = new boolean[size];
+        this.value = 0;
 
-        for (int id: bits){
-            views.setBoolean(id, "setEnabled", false);
+        for (int id=0; id < bits.length ; id++){
+            bits[id] = false;
         }
     }
 /*
@@ -34,16 +35,29 @@ public class NumberFace {
     }
 */
     public void setNumber(int value){
-        int i=7;
-        while(i >= 0){
+        int i=0;
+        this.value = value;
+        while(i < 8){
             if (value % 2 != 0){
-                this.views.setBoolean(bits[i],"setEnabled",true);
+                this.bits[i] = true;
             }
             else{
-                this.views.setBoolean(bits[i],"setEnabled",false);
+                this.bits[i] = false;
             }
             value /= 2;
-            i--;
+            i++;
         }
+    }
+
+    public int getValue(){
+        return this.value;
+    }
+
+    public boolean getBit(int position){
+        Log.i("NumberFace", "getBit "+position);
+        if (position > bits.length){
+            return false;
+        }
+        return bits[position];
     }
 }

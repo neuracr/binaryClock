@@ -1,6 +1,7 @@
 package team23.binaryclock;
 
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -64,18 +65,34 @@ public class ClockService extends RemoteViewsService {
 
     class ClockWidgetItemFactory implements RemoteViewsFactory{
         private List<Bit> listData;
-        private LayoutInflater layoutInflater;
         private Context context;
         private boolean bool = true;
+        private ClockFace clockFace;
 
         ClockWidgetItemFactory(Context aContext,  List<Bit> listData){
             this.context = aContext;
             this.listData = listData;
-            layoutInflater = LayoutInflater.from(aContext);
+            this.clockFace = new ClockFace();
+            this.clockFace.setTime();
         }
         @Override
         public void onCreate() {
             Log.i("callback", "onCreate()");
+            final Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(10000);
+                    }
+                    catch (Exception e){
+                        Log.i("exceptionnnnnn", "dans le onCreate");
+                    }
+                    AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+                    ComponentName cn = new ComponentName(context, ClockWidget.class);
+                    mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.face);
+                }
+            });
+            t.start();
 
         }
 
@@ -83,15 +100,17 @@ public class ClockService extends RemoteViewsService {
         public void onDataSetChanged() {
             Log.i("callback", "onDataSetChanged()");
             //when we want to update our widget
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
-            ClockFace face = new ClockFace(views);
-            face.setTime();
+            //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
+            //ClockFace face = new ClockFace(views);
+            //face.setTime();
 
 
         }
 
         @Override
         public void onDestroy() {
+            Log.i("callback", "onDestroy()");
+
             //close data source
         }
 
@@ -108,10 +127,12 @@ public class ClockService extends RemoteViewsService {
             if (position == AdapterView.INVALID_POSITION){
                 return null;
             }
+            //try{Thread.sleep(1000);}catch(Exception e){}
             RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.bit);
             view.setImageViewResource(R.id.bitImage, R.drawable.bit);
-            view.setBoolean(R.id.bitImage, "setEnabled", bool);
-            bool = !bool;
+            boolean on = this.clockFace.get(position%6, position/6);
+            Log.i("getViewAt","x:"+position%6 +", y:"+position/6+", pos:" + position + ", on:"+on);
+            view.setBoolean(R.id.bitImage, "setEnabled", on);
             return view;
         }
 
@@ -131,14 +152,14 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public long getItemId(int position) {
-            Log.i("callback", "getItemId()");
+            Log.i("callback", "getItemId() -> "+5000+position);
             return 5000+position;
         }
 
         @Override
         public boolean hasStableIds() {
             Log.i("callback", "hasStableIds()");
-            return false;
+            return true;
         }
     }
 }

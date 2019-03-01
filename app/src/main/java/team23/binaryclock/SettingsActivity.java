@@ -7,10 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
     private int num = 0;
@@ -19,7 +22,14 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.widget_clock);
+
+
+        final GridView gridView = (GridView) findViewById(R.id.face);
+        gridView.setAdapter(new TestAdapter(this, getBitList()));
+
+
+
 /*
         this.clockFace = new ClockFace((TableLayout)findViewById(R.id.face));
 
@@ -50,6 +60,17 @@ public class SettingsActivity extends AppCompatActivity {
         t.start();
         */
     }
+
+    private List<Bit> getBitList(){
+        int i=0;
+        ArrayList<Bit> bitList = new ArrayList<Bit>(24);
+        while (i < 24) {
+            bitList.add(new Bit());
+            i++;
+        }
+        return bitList;
+    }
+
 /*
     final private Handler tick = new Handler(){
         @Override
