@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class NumberFace {
     private int modulo;
-    private boolean[] bits;
+    private boolean[] bits; //bits[i] -> bit of power i
     private int value;
 
     public NumberFace(int size, int modulo){
