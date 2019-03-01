@@ -4,6 +4,8 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.AdapterView;
@@ -68,12 +70,14 @@ public class ClockService extends RemoteViewsService {
         private Context context;
         private boolean bool = true;
         private ClockFace clockFace;
+        private Handler tickHandler;
 
         ClockWidgetItemFactory(Context aContext,  List<Bit> listData){
             this.context = aContext;
             this.listData = listData;
             this.clockFace = new ClockFace();
             this.clockFace.setTime();
+            this.tickHandler = new Handler();
         }
         @Override
         public void onCreate() {
@@ -81,19 +85,45 @@ public class ClockService extends RemoteViewsService {
             final Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    int TICKS_IN_A_ROW = 50;
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(500);
                     }
                     catch (Exception e){
                         Log.i("exceptionnnnnn", "dans le onCreate");
                     }
-                    AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-                    ComponentName cn = new ComponentName(context, ClockWidget.class);
-                    mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.face);
+
+                    //tries to land on the top of each second
+                    while(true) {
+                        Calendar c = Calendar.getInstance();
+                        int offset = c.get(Calendar.MILLISECOND);
+
+                        long nextTime = SystemClock.uptimeMillis() + 1000 - offset;
+                        for (int i=0 ; i < TICKS_IN_A_ROW ; i++) {
+                            tickHandler.postAtTime(new Runnable() {
+                                @Override
+                                public void run() {
+                                    askUpdate();
+                                }
+                            }, nextTime + i * 1000);
+                        }
+                        try {
+                            Thread.sleep(TICKS_IN_A_ROW * 1000);
+                        }
+                        catch (InterruptedException e){
+                        }
+                    }
                 }
             });
             t.start();
 
+        }
+
+        private void askUpdate(){
+            this.clockFace.setTime();
+            AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+            ComponentName cn = new ComponentName(context, ClockWidget.class);
+            mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.face);
         }
 
         @Override
