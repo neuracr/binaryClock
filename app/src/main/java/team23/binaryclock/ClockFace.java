@@ -103,7 +103,7 @@ public class ClockFace{
             return false;
         }
         NfBitTuple tuple = this.bitGrid.get(x).get(y);
-        Log.i("ClockFace","getValue " + x + ", " + y + " val:" + tuple.getNf().getValue());
+        //Log.i("ClockFace","getValue " + x + ", " + y + " val:" + tuple.getNf().getValue());
 
         return tuple.getNf().getBit(tuple.getBit());
     }

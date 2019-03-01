@@ -81,7 +81,7 @@ public class ClockService extends RemoteViewsService {
         }
         @Override
         public void onCreate() {
-            Log.i("callback", "onCreate()");
+            //Log.i("callback", "onCreate()");
             final Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -90,7 +90,6 @@ public class ClockService extends RemoteViewsService {
                         Thread.sleep(500);
                     }
                     catch (Exception e){
-                        Log.i("exceptionnnnnn", "dans le onCreate");
                     }
 
                     //tries to land on the top of each second
@@ -128,7 +127,7 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            Log.i("callback", "onDataSetChanged()");
+            //Log.i("callback", "onDataSetChanged()");
             //when we want to update our widget
             //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
             //ClockFace face = new ClockFace(views);
@@ -139,21 +138,21 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public void onDestroy() {
-            Log.i("callback", "onDestroy()");
+            //Log.i("callback", "onDestroy()");
 
             //close data source
         }
 
         @Override
         public int getCount() {
-            Log.i("callback", "getCount()");
+            //Log.i("callback", "getCount()");
 
             return listData.size();
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
-            Log.i("callback", "getViewAt("+position+")");
+            //Log.i("callback", "getViewAt("+position+")");
             if (position == AdapterView.INVALID_POSITION){
                 return null;
             }
@@ -168,27 +167,27 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public RemoteViews getLoadingView() {
-            Log.i("callback", "getLoadingView()");
+            //Log.i("callback", "getLoadingView()");
 
             return null;
         }
 
         @Override
         public int getViewTypeCount() {
-            Log.i("callback", "getViewTypeCount()");
+            //Log.i("callback", "getViewTypeCount()");
 
             return 1;
         }
 
         @Override
         public long getItemId(int position) {
-            Log.i("callback", "getItemId() -> "+5000+position);
+            //Log.i("callback", "getItemId() -> "+5000+position);
             return 5000+position;
         }
 
         @Override
         public boolean hasStableIds() {
-            Log.i("callback", "hasStableIds()");
+            //Log.i("callback", "hasStableIds()");
             return true;
         }
     }

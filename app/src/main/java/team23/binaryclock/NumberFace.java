@@ -54,7 +54,7 @@ public class NumberFace {
     }
 
     public boolean getBit(int position){
-        Log.i("NumberFace", "getBit "+position);
+        //Log.i("NumberFace", "getBit "+position);
         if (position > bits.length){
             return false;
         }
