@@ -4,20 +4,11 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.Shape;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
@@ -54,8 +45,11 @@ public class ClockService extends RemoteViewsService {
         private Context context;
         private ClockFace clockFace;
         private Handler tickHandler;
+        private GradientDrawable bit_off_draw;
+        private GradientDrawable bit_on_draw;
         private Bitmap bit_off;
         private Bitmap bit_on;
+        private boolean rect = false;
 
         ClockWidgetItemFactory(Context aContext,  List<Bit> bitList){
             this.context = aContext;
@@ -66,18 +60,16 @@ public class ClockService extends RemoteViewsService {
         }
         @Override
         public void onCreate() {
-            //Log.i("callback", "onCreate()");
+            Log.i("callback", "onCreate()");
 
             //bit_off creation
-            GradientDrawable d = (GradientDrawable) getResources().getDrawable(R.drawable.bit_off, getTheme());
-            d.setAlpha(50);
-            d.setShape(GradientDrawable.OVAL);
-            this.bit_off = convertToBitmap(d, 20,20);
+            this.bit_off_draw = (GradientDrawable) getResources().getDrawable(R.drawable.bit_off, getTheme());
+            this.bit_off = convertToBitmap(this.bit_off_draw, 20,20);
 
 
 
-            d = (GradientDrawable) getResources().getDrawable(R.drawable.bit_on, getTheme());
-            this.bit_on = convertToBitmap(d, 20,20);
+            this.bit_on_draw = (GradientDrawable) getResources().getDrawable(R.drawable.bit_on, getTheme());
+            this.bit_on = convertToBitmap(this.bit_on_draw, 20,20);
 
 
             final Thread t = new Thread(new Runnable() {
@@ -125,26 +117,40 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
+            Log.i("callback", "onDatasetChanged()");
+
+            SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
+            this.rect = settings.getBoolean("rect", true);
+            if(this.rect){
+                this.bit_off_draw.setShape(GradientDrawable.RECTANGLE);
+                this.bit_on_draw.setShape(GradientDrawable.RECTANGLE);
+            }
+            else{
+                this.bit_off_draw.setShape(GradientDrawable.OVAL);
+                this.bit_on_draw.setShape(GradientDrawable.OVAL);
+            }
+            this.bit_on = convertToBitmap(this.bit_on_draw, 60,60);
+            this.bit_off = convertToBitmap(this.bit_off_draw, 60,60);
 
         }
 
         @Override
         public void onDestroy() {
-            //Log.i("callback", "onDestroy()");
+            Log.i("callback", "onDestroy()");
 
             //close data source
         }
 
         @Override
         public int getCount() {
-            //Log.i("callback", "getCount()");
+            Log.i("callback", "getCount()");
 
             return bitList.size();
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
-            //Log.i("callback", "getViewAt("+position+")");
+            Log.i("callback", "getViewAt("+position+")");
             if (position == AdapterView.INVALID_POSITION){
                 return null;
             }
@@ -181,7 +187,7 @@ public class ClockService extends RemoteViewsService {
                 view.setImageViewBitmap(R.id.bitImage,  bit_off);
             }
             Log.i("getViewAt","x:"+position%6 +", y:"+position/6+", pos:" + position + ", on:"+on);
-            view.setBoolean(R.id.bitImage, "setEnabled", on);
+            //view.setBoolean(R.id.bitImage, "setEnabled", on);
             return view;
         }
 
@@ -197,27 +203,27 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public RemoteViews getLoadingView() {
-            //Log.i("callback", "getLoadingView()");
+            Log.i("callback", "getLoadingView()");
 
             return null;
         }
 
         @Override
         public int getViewTypeCount() {
-            //Log.i("callback", "getViewTypeCount()");
+            Log.i("callback", "getViewTypeCount()");
 
             return 1;
         }
 
         @Override
         public long getItemId(int position) {
-            //Log.i("callback", "getItemId() -> "+5000+position);
+            Log.i("callback", "getItemId() -> "+5000+position);
             return 5000+position;
         }
 
         @Override
         public boolean hasStableIds() {
-            //Log.i("callback", "hasStableIds()");
+            Log.i("callback", "hasStableIds()");
             return true;
         }
     }
