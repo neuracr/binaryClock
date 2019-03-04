@@ -1,8 +1,12 @@
 package team23.binaryclock;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,9 +28,18 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.widget_clock);
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1);
 
-        final GridView gridView = (GridView) findViewById(R.id.face);
-        gridView.setAdapter(new TestAdapter(this, getBitList()));
+        }
+
+
+        //final GridView gridView = (GridView) findViewById(R.id.face);
+        //gridView.setAdapter(new TestAdapter(this, getBitList()));
 
 
 

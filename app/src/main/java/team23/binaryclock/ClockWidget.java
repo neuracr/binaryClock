@@ -24,18 +24,6 @@ public class ClockWidget extends AppWidgetProvider {
     private AppWidgetManager appWidgetManager;
     private  int appWidgetIds[];
 
-    void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
-    }
-
-    /*
-    private void updateAll(){
-        clockFace.setTime();
-
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-    } */
-
     @Override
     public void onReceive(final Context context, Intent intent){
         final String action = intent.getAction();

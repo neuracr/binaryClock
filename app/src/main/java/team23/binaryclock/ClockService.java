@@ -4,13 +4,27 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.Shape;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,46 +49,17 @@ public class ClockService extends RemoteViewsService {
         return bitList;
     }
 
-    public void startTicking(final AppWidgetManager appWidgetManager){
-        final Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int TICKS_IN_A_ROW = 50;
-                //set the widget_clock for the first time
-                clockWidgetItemFactory.onDataSetChanged();
-
-                /*
-                //tries to land on the top of each second
-                while(true) {
-                    Calendar c = Calendar.getInstance();
-                    int offset = c.get(Calendar.MILLISECOND);
-
-                    long nextTime = SystemClock.uptimeMillis() + 1000 - offset;
-                    for (int i=0 ; i < TICKS_IN_A_ROW ; i++) {
-                        tick.sendEmptyMessageAtTime(TICK_MESSAGE, nextTime + i*1000);
-                    }
-                    try {
-                        Thread.sleep(TICKS_IN_A_ROW * 1000);
-                    }
-                    catch (InterruptedException e){
-                    }
-                }*/
-            }
-        });
-        t.start();
-    }
-
-
     class ClockWidgetItemFactory implements RemoteViewsFactory{
-        private List<Bit> listData;
+        private List<Bit> bitList;
         private Context context;
-        private boolean bool = true;
         private ClockFace clockFace;
         private Handler tickHandler;
+        private Bitmap bit_off;
+        private Bitmap bit_on;
 
-        ClockWidgetItemFactory(Context aContext,  List<Bit> listData){
+        ClockWidgetItemFactory(Context aContext,  List<Bit> bitList){
             this.context = aContext;
-            this.listData = listData;
+            this.bitList = bitList;
             this.clockFace = new ClockFace();
             this.clockFace.setTime();
             this.tickHandler = new Handler();
@@ -82,6 +67,19 @@ public class ClockService extends RemoteViewsService {
         @Override
         public void onCreate() {
             //Log.i("callback", "onCreate()");
+
+            //bit_off creation
+            GradientDrawable d = (GradientDrawable) getResources().getDrawable(R.drawable.bit_off, getTheme());
+            d.setAlpha(50);
+            d.setShape(GradientDrawable.OVAL);
+            this.bit_off = convertToBitmap(d, 20,20);
+
+
+
+            d = (GradientDrawable) getResources().getDrawable(R.drawable.bit_on, getTheme());
+            this.bit_on = convertToBitmap(d, 20,20);
+
+
             final Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -127,12 +125,6 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            //Log.i("callback", "onDataSetChanged()");
-            //when we want to update our widget
-            //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
-            //ClockFace face = new ClockFace(views);
-            //face.setTime();
-
 
         }
 
@@ -147,7 +139,7 @@ public class ClockService extends RemoteViewsService {
         public int getCount() {
             //Log.i("callback", "getCount()");
 
-            return listData.size();
+            return bitList.size();
         }
 
         @Override
@@ -156,13 +148,51 @@ public class ClockService extends RemoteViewsService {
             if (position == AdapterView.INVALID_POSITION){
                 return null;
             }
-            //try{Thread.sleep(1000);}catch(Exception e){}
+            int[] enabled = new int[] {-android.R.attr.state_enabled};
+            int[] disabled = new int[] {};
+            int [][] states = new int[][] {enabled, disabled};
+
+            //ColorStateList csl = new ColorStateList(states, new int[] {0x0, 0xffffff});
+
+            //ShapeDrawable bit = new ShapeDrawable();
+            //bit.setShape(new OvalShape());
+            //bit.setIntrinsicHeight(15);
+            //bit.setIntrinsicWidth(15);
+            //bit.setTintList(csl);
+            //ShapeDrawable bit_on = (ShapeDrawable) getResources().getDrawable(R.drawable.bit_on);
+            //bit_on.setColorFilter( 0xffff0000, PorterDuff.Mode.MULTIPLY );
+            //StateListDrawable sld = (StateListDrawable) getResources().getDrawable(R.drawable.bit);
+            //sld.addState(new int[] {-android.R.attr.state_enabled}, bit_on);
             RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.bit);
-            view.setImageViewResource(R.id.bitImage, R.drawable.bit);
+
+
+
+            ////// To load an image from the external storage
+            //Bitmap bm = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getPath() + "/icon.png");
+            //view.setImageViewBitmap(R.id.bitImage,  bm);
+            ////////
+
+
             boolean on = this.clockFace.get(position%6, position/6);
+            if (on){
+                view.setImageViewBitmap(R.id.bitImage,  bit_on);
+            }
+            else{
+                view.setImageViewBitmap(R.id.bitImage,  bit_off);
+            }
             Log.i("getViewAt","x:"+position%6 +", y:"+position/6+", pos:" + position + ", on:"+on);
             view.setBoolean(R.id.bitImage, "setEnabled", on);
             return view;
+        }
+
+
+        public Bitmap convertToBitmap(Drawable drawable, int widthPixels, int heightPixels) {
+            Bitmap mutableBitmap = Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(mutableBitmap);
+            drawable.setBounds(0, 0, widthPixels, heightPixels);
+            drawable.draw(canvas);
+
+            return mutableBitmap;
         }
 
         @Override
