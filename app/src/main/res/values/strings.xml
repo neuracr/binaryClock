@@ -2,4 +2,11 @@
     <string name="app_name">BinaryClock</string>
     <string name="dot">dot</string>
     <string name="add_widget">Add widget</string>
+    <string name="title">Binary clock settings</string>
+    <string name="bit_on_title">Bit on skin</string>
+    <string name="color">color</string>
+    <string name="shape">shape</string>
+    <string name="color_hint">ARGB (FFAA9922)</string>
+    <string name="bit_off_title">Bit off skin</string>
+
 </resources>
