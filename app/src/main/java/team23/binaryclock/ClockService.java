@@ -28,7 +28,7 @@ public class ClockService extends RemoteViewsService {
         return this.clockWidgetItemFactory;
     }
 
-    private static List<Bit> createBitList(int number){
+    public static List<Bit> createBitList(int number){
         int i=0;
         ArrayList<Bit> bitList = new ArrayList<>(number);
         while (i < number) {
