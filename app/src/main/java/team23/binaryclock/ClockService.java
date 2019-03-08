@@ -32,7 +32,7 @@ public class ClockService extends RemoteViewsService {
 
     private List<Bit> getBitList(){
         int i=0;
-        ArrayList<Bit> bitList = new ArrayList<Bit>(24);
+        ArrayList<Bit> bitList = new ArrayList<>(24);
         while (i < 24) {
             bitList.add(new Bit());
             i++;
@@ -47,7 +47,7 @@ public class ClockService extends RemoteViewsService {
         private Handler tickHandler;
         private GradientDrawable bit_off_draw;
         private GradientDrawable bit_on_draw;
-        private Bitmap bit_off;
+        //private Bitmap bit_off;
         private Bitmap bit_on;
         private boolean rect = false;
 
@@ -63,13 +63,16 @@ public class ClockService extends RemoteViewsService {
             Log.i("callback", "onCreate()");
 
             //bit_off creation
-            this.bit_off_draw = (GradientDrawable) getResources().getDrawable(R.drawable.bit_off, getTheme());
-            this.bit_off = convertToBitmap(this.bit_off_draw, 20,20);
+            //this.bit_off_draw = (GradientDrawable) getResources().getDrawable(R.drawable.bit_off, getTheme());
+            //this.bit_off_draw = new GradientDrawable();
+            //this.bit_off_draw.setShape(GradientDrawable.RING);
+            //this.bit_off_draw.setColor(0xFAC84526);
+            //this.bit_off = convertToBitmap(this.bit_off_draw, 20,20);
 
 
 
-            this.bit_on_draw = (GradientDrawable) getResources().getDrawable(R.drawable.bit_on, getTheme());
-            this.bit_on = convertToBitmap(this.bit_on_draw, 20,20);
+            //this.bit_on_draw = (GradientDrawable) getResources().getDrawable(R.drawable.bit_on, getTheme());
+            //this.bit_on = convertToBitmap(this.bit_on_draw, 20,20);
 
 
             final Thread t = new Thread(new Runnable() {
@@ -119,7 +122,7 @@ public class ClockService extends RemoteViewsService {
         public void onDataSetChanged() {
             Log.i("callback", "onDatasetChanged()");
 
-            SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
+            /*SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
             this.rect = settings.getBoolean("rect", true);
             if(this.rect){
                 this.bit_off_draw.setShape(GradientDrawable.RECTANGLE);
@@ -129,8 +132,9 @@ public class ClockService extends RemoteViewsService {
                 this.bit_off_draw.setShape(GradientDrawable.OVAL);
                 this.bit_on_draw.setShape(GradientDrawable.OVAL);
             }
-            this.bit_on = convertToBitmap(this.bit_on_draw, 60,60);
-            this.bit_off = convertToBitmap(this.bit_off_draw, 60,60);
+            */
+            //this.bit_on = convertToBitmap(this.bit_on_draw, 60,60);
+            //this.bit_off = convertToBitmap(this.bit_off_draw, 60,60);
 
         }
 
@@ -180,12 +184,7 @@ public class ClockService extends RemoteViewsService {
 
 
             boolean on = this.clockFace.get(position%6, position/6);
-            if (on){
-                view.setImageViewBitmap(R.id.bitImage,  bit_on);
-            }
-            else{
-                view.setImageViewBitmap(R.id.bitImage,  bit_off);
-            }
+            view.setImageViewBitmap(R.id.bitImage,  bitList.get(position).getBitmap(on));
             Log.i("getViewAt","x:"+position%6 +", y:"+position/6+", pos:" + position + ", on:"+on);
             //view.setBoolean(R.id.bitImage, "setEnabled", on);
             return view;
