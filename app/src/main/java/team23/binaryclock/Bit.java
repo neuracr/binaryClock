@@ -17,4 +17,13 @@ public class Bit {
             return this.skinOn.getBitmap();
         return this.skinOff.getBitmap();
     }
+
+    public void setSkin(BitSkin skin, boolean on){
+        if (on){
+            this.skinOn = skin;
+        }
+        else{
+            this.skinOff = skin;
+        }
+    }
 }
