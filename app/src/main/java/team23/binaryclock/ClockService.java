@@ -4,11 +4,9 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
@@ -26,14 +24,14 @@ public class ClockService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        this.clockWidgetItemFactory = new ClockWidgetItemFactory(getApplicationContext(), getBitList());
+        this.clockWidgetItemFactory = new ClockWidgetItemFactory(getApplicationContext(), createBitList(24));
         return this.clockWidgetItemFactory;
     }
 
-    private List<Bit> getBitList(){
+    private static List<Bit> createBitList(int number){
         int i=0;
-        ArrayList<Bit> bitList = new ArrayList<>(24);
-        while (i < 24) {
+        ArrayList<Bit> bitList = new ArrayList<>(number);
+        while (i < number) {
             bitList.add(new Bit());
             i++;
         }
@@ -45,11 +43,6 @@ public class ClockService extends RemoteViewsService {
         private Context context;
         private ClockFace clockFace;
         private Handler tickHandler;
-        private GradientDrawable bit_off_draw;
-        private GradientDrawable bit_on_draw;
-        //private Bitmap bit_off;
-        private Bitmap bit_on;
-        private boolean rect = false;
 
         ClockWidgetItemFactory(Context aContext,  List<Bit> bitList){
             this.context = aContext;

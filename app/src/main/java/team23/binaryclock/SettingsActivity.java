@@ -32,14 +32,9 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        //updates the spinners
         fillSpinner((Spinner) findViewById(R.id.on_shape_spinner));
         fillSpinner((Spinner) findViewById(R.id.off_shape_spinner));
-
-
-
-
-
-
 
 
 
@@ -79,6 +74,9 @@ public class SettingsActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
+
+    private void updatePreview()
+
     @Override
     public void onStop() {
         super.onStop();
