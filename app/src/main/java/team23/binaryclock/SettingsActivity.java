@@ -3,6 +3,7 @@ package team23.binaryclock;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -16,28 +17,40 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 public class SettingsActivity extends AppCompatActivity {
+    private List<Bit> bitList;
+    private TableLayout tableLayout;
+    private Random rand;
+    private Bit previewBit; //used for the skin preview
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        this.tableLayout = (TableLayout) findViewById(R.id.tablePreview);
+        this.rand = new Random();
+        this.previewBit = new Bit();
+
+
 
         //updates the spinners
         fillSpinner((Spinner) findViewById(R.id.on_shape_spinner));
         fillSpinner((Spinner) findViewById(R.id.off_shape_spinner));
 
-
-
+        //setups the preview
+        this.bitList = ClockService.createBitList(6);
 
 
         //I'll deal with this later to let the user add his own bit images
@@ -75,7 +88,16 @@ public class SettingsActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-    private void updatePreview()
+    private void updatePreview(){
+        for (int i =0; i < this.tableLayout.getChildCount(); i++){
+            //TODO: be carefull with the casts
+            TableRow row = (TableRow) this.tableLayout.getChildAt(i);
+            for (int j=0; i < row.getChildCount(); j++){
+                ImageView iv = (ImageView) row.getChildAt(j);
+                    iv.setImageBitmap(this.previewBit.getBitmap(this.rand.nextBoolean()));
+            }
+        }
+    }
 
     @Override
     public void onStop() {
