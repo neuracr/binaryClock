@@ -3,6 +3,7 @@ package team23.binaryclock;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,7 +32,6 @@ import java.util.List;
 import java.util.Random;
 
 public class SettingsActivity extends AppCompatActivity {
-    private List<Bit> bitList;
     private TableLayout tableLayout;
     private Random rand;
     private Bit previewBit; //used for the skin preview
@@ -50,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
         fillSpinner((Spinner) findViewById(R.id.off_shape_spinner));
 
         //setups the preview
-        this.bitList = ClockService.createBitList(6);
+        updatePreview();
 
 
         //I'll deal with this later to let the user add his own bit images
@@ -92,9 +93,10 @@ public class SettingsActivity extends AppCompatActivity {
         for (int i =0; i < this.tableLayout.getChildCount(); i++){
             //TODO: be carefull with the casts
             TableRow row = (TableRow) this.tableLayout.getChildAt(i);
-            for (int j=0; i < row.getChildCount(); j++){
+            for (int j=0; j < row.getChildCount(); j++){
                 ImageView iv = (ImageView) row.getChildAt(j);
-                    iv.setImageBitmap(this.previewBit.getBitmap(this.rand.nextBoolean()));
+                Bitmap b = this.previewBit.getBitmap(this.rand.nextBoolean());
+                iv.setImageBitmap(b);
             }
         }
     }
