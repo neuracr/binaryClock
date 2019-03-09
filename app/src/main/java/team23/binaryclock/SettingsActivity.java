@@ -1,12 +1,15 @@
 package team23.binaryclock;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +21,8 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.Random;
+
+import top.defaults.colorpicker.ColorPickerPopup;
 
 public class SettingsActivity extends AppCompatActivity {
     private TableLayout tableLayout;
@@ -39,8 +44,13 @@ public class SettingsActivity extends AppCompatActivity {
         fillSpinner((Spinner) findViewById(R.id.off_shape_spinner));
 
         //set the textView listeners
-        ((TextView) ((LinearLayout)findViewById(R.id.on_color_layout)).getChildAt(0)).addTextChangedListener(new NewColorChange());
-        ((TextView) ((LinearLayout)findViewById(R.id.off_color_layout)).getChildAt(0)).addTextChangedListener(new NewColorChange());
+        //((TextView) ((LinearLayout)findViewById(R.id.on_color_layout)).getChildAt(0)).addTextChangedListener(new NewColorChange());
+        ((LinearLayout)((LinearLayout)findViewById(R.id.off_color_layout)).getChildAt(0)).getChildAt(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup(v);
+            }
+        });
 
 
         //setups the preview
@@ -76,10 +86,40 @@ public class SettingsActivity extends AppCompatActivity {
         */
     }
 
+    private void popup(View v) {
+        new ColorPickerPopup.Builder(this)
+                .initialColor(0xFFFFFFFF)
+                .enableAlpha(true)
+                .okTitle("Choose")
+                .cancelTitle("Cancel")
+                .showIndicator(true)
+                .showValue(true)
+                .onlyUpdateOnTouchEventUp(true)
+                .build()
+                .show(new ColorPickerPopup.ColorPickerObserver() {
+                    @Override
+                    public void onColorPicked(int color) {
+                        Log.i("color", "" + color);
+                    }
+                });
+    }
+
     private void fillSpinner(Spinner spinner){
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.shapes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+    }
+
+    private void generateSkin(){
+        int[] colors = getColors(R.id.on_color_layout);
+        int shape = (((Spinner) findViewById(R.id.on_shape_spinner)).getSelectedItem().toString().equals("Rectangle") ) ? GradientDrawable.RECTANGLE : GradientDrawable.OVAL;
+        BitSkin skin = new GradientSkin(shape, colors, GradientDrawable.SWEEP_GRADIENT, 60,60);
+        previewBit.setSkin(skin, true);
+
+        colors = getColors(R.id.off_color_layout);
+        shape = (((Spinner) findViewById(R.id.off_shape_spinner)).getSelectedItem().toString().equals("Rectangle") ) ? GradientDrawable.RECTANGLE : GradientDrawable.OVAL;
+        skin = new GradientSkin(shape, colors, GradientDrawable.SWEEP_GRADIENT, 60,60);
+        previewBit.setSkin(skin, false);
     }
 
     //preview generated randomly
@@ -97,11 +137,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     private int[] getColors(int layoutId){
         LinearLayout layout = findViewById(layoutId);
-        int colors[] = new int[]{layout.getChildCount()};
+        @ColorInt int colors[] = new int[]{layout.getChildCount()};
         for (int i=0 ; i<layout.getChildCount(); i++){
             TextView tv = (TextView) layout.getChildAt(i);
-            colors[i] = Integer.parseInt(tv.getText().toString());
-            Log.i("Integer.parseInt: ", Integer.toHexString(colors[i]));
+            String t = tv.getText().toString();
+            if (t.equals("")){
+                colors[i] = 0xFFFFFFFF;
+            }
+            else {
+                colors[i] = Integer.parseUnsignedInt(t,16);
+                Log.i("Integer.parseInt: ", Integer.toHexString(colors[i]));
+            }
         }
         return new int[] {0};
     }
@@ -117,6 +163,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
+            //generateSkin();
             updatePreview();
         }
     }

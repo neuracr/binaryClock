@@ -15,7 +15,7 @@ public class GradientSkin extends BitSkin {
     public GradientSkin(int shape, int colors[], int gradientType, int width, int height){
         super(height, width);
         this.shape = shape;
-        this.colors = colors;
+        this.colors = (colors.length == 1) ? new int[]{colors[0], colors[0]} : colors;
         this.gradientType = gradientType;
 
         this.drawable = new GradientDrawable();
