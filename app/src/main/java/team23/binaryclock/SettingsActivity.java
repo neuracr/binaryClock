@@ -1,11 +1,14 @@
 package team23.binaryclock;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.GradientDrawable;
+import android.net.LinkAddress;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.text.BoringLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -110,16 +113,31 @@ public class SettingsActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-    private void generateSkin(){
-        int[] colors = getColors(R.id.on_color_layout);
-        int shape = (((Spinner) findViewById(R.id.on_shape_spinner)).getSelectedItem().toString().equals("Rectangle") ) ? GradientDrawable.RECTANGLE : GradientDrawable.OVAL;
-        BitSkin skin = new GradientSkin(shape, colors, GradientDrawable.SWEEP_GRADIENT, 60,60);
-        previewBit.setSkin(skin, true);
+    //genererate a BitSkin object based on the data in the layout and saves it into the SharedPreferences
+    //the topLayout should correspond to the boolean bit (bit on or off)
+    private BitSkin generateSkin(LinearLayout topLayout, Boolean on){
+        //TODO: refactor the skin persistence and use something else than SharedPreferences (to store complex data)
+        //prepare to save the skin
+        //keys: bit_true_color, bit_true_shape, bit_false_color, bit_false_shape
+        SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
+        final SharedPreferences.Editor editor = settings.edit();
 
-        colors = getColors(R.id.off_color_layout);
-        shape = (((Spinner) findViewById(R.id.off_shape_spinner)).getSelectedItem().toString().equals("Rectangle") ) ? GradientDrawable.RECTANGLE : GradientDrawable.OVAL;
-        skin = new GradientSkin(shape, colors, GradientDrawable.SWEEP_GRADIENT, 60,60);
-        previewBit.setSkin(skin, false);
+        //get the color information
+        LinearLayout colorLayout = (LinearLayout) topLayout.getChildAt(1);
+        int[] colors = getColors(colorLayout);
+
+        //get the shape information
+        Spinner sp = (Spinner) ((LinearLayout) topLayout.getChildAt(2)).getChildAt(1);
+        int shape = sp.getSelectedItem().toString().equals("Rectangle") ? GradientDrawable.RECTANGLE : GradientDrawable.OVAL;
+
+        //save the skin
+        editor.putInt("bit_"+on.toString()+"_color", colors[0]);
+        editor.putInt("bit_"+on.toString()+"_shape", shape);
+        editor.apply();
+
+        //instantiates the skin, with a default sweep gradient and size //TODO: customize gradient type and size
+        BitSkin skin = new GradientSkin(shape, colors, GradientDrawable.SWEEP_GRADIENT, 60,60);
+        return skin;
     }
 
     //preview generated randomly
@@ -135,21 +153,10 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    private int[] getColors(int layoutId){
-        LinearLayout layout = findViewById(layoutId);
-        @ColorInt int colors[] = new int[]{layout.getChildCount()};
-        for (int i=0 ; i<layout.getChildCount(); i++){
-            TextView tv = (TextView) layout.getChildAt(i);
-            String t = tv.getText().toString();
-            if (t.equals("")){
-                colors[i] = 0xFFFFFFFF;
-            }
-            else {
-                colors[i] = Integer.parseUnsignedInt(t,16);
-                Log.i("Integer.parseInt: ", Integer.toHexString(colors[i]));
-            }
-        }
-        return new int[] {0};
+    private int[] getColors(LinearLayout colorLayout){
+        @ColorInt int colors[] = new int[]{colorLayout.getChildCount()};
+        //TODO:code this
+        return new int[] {0xFFFFFFFF};
     }
 
     private class NewColorChange implements TextWatcher {
