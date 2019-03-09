@@ -11,6 +11,8 @@
         android:id="@+id/previewLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -101,8 +103,10 @@
 
     <LinearLayout
         android:id="@+id/bit_on"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,16 +129,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/color" />
-
-            <EditText
-                android:id="@+id/on_color_et"
-                android:layout_width="match_parent"
+            <Button
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textCapWords"
-                android:singleLine="true"
-                tools:text="@string/color_hint" />
+                android:text="@string/plus"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/on_color_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"
+                    tools:text="@string/color_hint" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -157,10 +169,13 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/bit_off"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -172,6 +187,7 @@
             android:layout_height="wrap_content"
             android:text="@string/bit_off_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -205,6 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/shape" />
+
             <Spinner
                 android:id="@+id/off_shape_spinner"
                 android:layout_width="match_parent"
