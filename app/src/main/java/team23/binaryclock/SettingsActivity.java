@@ -61,10 +61,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        //load the user skins from the SharedPreferences
+
+        //load the user skins from the SharedPreferences in the UI and in the previewBit attribute
+        loadSkinFromPreferences(true, (LinearLayout) findViewById(R.id.bit_on));
+        loadSkinFromPreferences(false, (LinearLayout) findViewById(R.id.bit_off));
 
 
-        //setups the preview
+        //setups the preview according to the previewBit attribute
         updatePreview();
 
 
@@ -144,9 +147,16 @@ public class SettingsActivity extends AppCompatActivity {
         int color = settings.getInt("bit_"+on.toString()+"_color", 0xFFAAAAAA);
         int shape = settings.getInt("bit_"+on.toString()+"_shape", 0);
 
-        //set the text view for the color
+        //set the text view for the color (UI)
         LinearLayout oneColor = (LinearLayout) ((LinearLayout) ((LinearLayout) topLayout.getChildAt(1)).getChildAt(2)).getChildAt(0);
         ((TextView) oneColor.getChildAt(1)).setText(Integer.toHexString(color).toUpperCase());
+        oneColor.getChildAt(0).setBackgroundColor(color);
+
+        //TODO: update the spinner for the shape (boring)
+
+        //TODO: change the duplicate color hack
+        BitSkin skin = new GradientSkin(shape, new int[]{color, color}, GradientDrawable.SWEEP_GRADIENT, 60,60);
+        previewBit.setSkin(skin, on);
     }
 
     //preview generated randomly
