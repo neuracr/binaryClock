@@ -2,8 +2,10 @@ package team23.binaryclock;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.LinkAddress;
+import android.os.TestLooperManager;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
@@ -88,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
         */
     }
 
-    private void popup(View v) {
+    private void popup(final View v) {
         new ColorPickerPopup.Builder(this)
                 .initialColor(0xFFFFFFFF)
                 .enableAlpha(true)
@@ -101,7 +103,20 @@ public class SettingsActivity extends AppCompatActivity {
                 .show(new ColorPickerPopup.ColorPickerObserver() {
                     @Override
                     public void onColorPicked(int color) {
-                        Log.i("color", "" + color);
+                        BitSkin bitSkin= null;
+                        //update the UI
+                        ((TextView) v).setText(Integer.toHexString(color).toUpperCase());
+                        ((LinearLayout) v.getParent()).getChildAt(0).setBackgroundColor(color);
+
+                        //ask for the preview and persistance
+                        LinearLayout topLayout = (LinearLayout) v.getParent().getParent().getParent().getParent();
+                        if (topLayout.getId() == R.id.bit_on){
+                            previewBit.setSkin(generateSkin(topLayout, true), true);
+                        }
+                        else{
+                            previewBit.setSkin(generateSkin(topLayout, false), false);
+                        }
+                        updatePreview();
                     }
                 });
     }
@@ -121,13 +136,19 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
         final SharedPreferences.Editor editor = settings.edit();
 
+        int id = topLayout.getId();
+
         //get the color information
-        LinearLayout colorLayout = (LinearLayout) topLayout.getChildAt(1);
+        LinearLayout colorLayout = (LinearLayout) ((LinearLayout) topLayout.getChildAt(1)).getChildAt(2);
         int[] colors = getColors(colorLayout);
 
         //get the shape information
         Spinner sp = (Spinner) ((LinearLayout) topLayout.getChildAt(2)).getChildAt(1);
         int shape = sp.getSelectedItem().toString().equals("Rectangle") ? GradientDrawable.RECTANGLE : GradientDrawable.OVAL;
+
+        Log.i("generateSkin","color: "+colors[0]);
+        Log.i("generateSkin","color: "+shape);
+
 
         //save the skin
         editor.putInt("bit_"+on.toString()+"_color", colors[0]);
@@ -173,9 +194,20 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private int[] getColors(LinearLayout colorLayout){
-        @ColorInt int colors[] = new int[]{colorLayout.getChildCount()};
-        //TODO:code this
-        return new int[] {0xFFFFFFFF};
+        int colorNb = colorLayout.getChildCount();
+        @ColorInt int colors[] = new int[]{colorNb};
+        for (int i=0; i< colorNb; i++){
+            TextView tv = (TextView) ((LinearLayout) colorLayout.getChildAt(i)).getChildAt(1);
+            int c = Color.parseColor("#"+tv.getText().toString());
+            Log.i("getColors", "read: "+tv.getText() + " " + c);
+
+            colors[i] = c;
+        }
+
+        if (colorNb == 1){
+            return new int[]{colors[0], colors[0]};
+        }
+        return colors;
     }
 
     @Override
