@@ -145,7 +145,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         //loads the bit_on data
         int color = settings.getInt("bit_"+on.toString()+"_color", 0xFFAAAAAA);
-        int shape = settings.getInt("bit_"+on.toString()+"_shape", 0);
+        int shape = settings.getInt("bit_"+on.toString()+"_shape", GradientDrawable.OVAL);
 
         //set the text view for the color (UI)
         LinearLayout oneColor = (LinearLayout) ((LinearLayout) ((LinearLayout) topLayout.getChildAt(1)).getChildAt(2)).getChildAt(0);
