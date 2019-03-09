@@ -130,17 +130,19 @@
                 android:layout_height="wrap_content"
                 android:text="@string/color" />
             <Button
+                android:id="@+id/on_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/plus"/>
             <LinearLayout
+                android:id="@+id/on_color_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <EditText
                     android:id="@+id/on_color_et"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textCapWords"
@@ -163,7 +165,7 @@
 
             <Spinner
                 android:id="@+id/on_shape_spinner"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
@@ -199,15 +201,26 @@
                 android:layout_height="wrap_content"
                 android:text="@string/color" />
 
-            <EditText
-                android:id="@+id/off_color_et"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/off_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textCapWords"
-                android:singleLine="true"
-                tools:text="@string/color_hint" />
+                android:text="@string/plus"/>
+            <LinearLayout
+                android:id="@+id/off_color_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/off_color_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textCapWords"
+                    android:singleLine="true"
+                    tools:text="@string/color_hint" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -224,7 +237,7 @@
 
             <Spinner
                 android:id="@+id/off_shape_spinner"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
