@@ -1,10 +1,15 @@
 package team23.binaryclock;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.LinkAddress;
+import android.os.IBinder;
 import android.os.TestLooperManager;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.ColorInt;
@@ -17,6 +22,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -34,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TableLayout tableLayout;
     private Random rand;
     private Bit previewBit; //used for the skin preview
+    private ClockService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +78,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         //setups the preview according to the previewBit attribute
         updatePreview();
+
+        findViewById(R.id.reload).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePreview();
+            }
+        });
 
 
         //I'll deal with this later to let the user add his own bit images
@@ -210,9 +224,4 @@ public class SettingsActivity extends AppCompatActivity {
         return colors;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
 }

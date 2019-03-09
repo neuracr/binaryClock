@@ -4,9 +4,12 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
@@ -23,6 +26,15 @@ public class ClockService extends RemoteViewsService {
     private ClockWidgetItemFactory clockWidgetItemFactory;
 
     @Override
+    public void onCreate(){
+        super.onCreate();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("team23.binaryClock.changeSkin");
+        Log.i("ClockService","onCreate()");
+        //registerReceiver(receiver, filter);
+    }
+
+    @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         this.clockWidgetItemFactory = new ClockWidgetItemFactory(getApplicationContext(), createBitList(24));
         return this.clockWidgetItemFactory;
@@ -37,6 +49,12 @@ public class ClockService extends RemoteViewsService {
         }
         return bitList;
     }
+
+    //this is called by the ClockWidget
+    public void setSkin(BitSkin bitSkin, Boolean on){
+        clockWidgetItemFactory.setSkin(bitSkin, on);
+    }
+
 
     class ClockWidgetItemFactory implements RemoteViewsFactory{
         private List<Bit> bitList;
@@ -55,18 +73,8 @@ public class ClockService extends RemoteViewsService {
         public void onCreate() {
             Log.i("callback", "onCreate()");
 
-            //bit_off creation
-            //this.bit_off_draw = (GradientDrawable) getResources().getDrawable(R.drawable.bit_off, getTheme());
-            //this.bit_off_draw = new GradientDrawable();
-            //this.bit_off_draw.setShape(GradientDrawable.RING);
-            //this.bit_off_draw.setColor(0xFAC84526);
-            //this.bit_off = convertToBitmap(this.bit_off_draw, 20,20);
-
-
-
-            //this.bit_on_draw = (GradientDrawable) getResources().getDrawable(R.drawable.bit_on, getTheme());
-            //this.bit_on = convertToBitmap(this.bit_on_draw, 20,20);
-
+            loadSkinFromPreferences(true);
+            loadSkinFromPreferences(false);
 
             final Thread t = new Thread(new Runnable() {
                 @Override
@@ -104,6 +112,27 @@ public class ClockService extends RemoteViewsService {
 
         }
 
+        private void loadSkinFromPreferences(Boolean on){
+            SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
+
+            //loads the bit_on data
+            int color = settings.getInt("bit_"+on.toString()+"_color", 0xFFAAAAAA);
+            int shape = settings.getInt("bit_"+on.toString()+"_shape", GradientDrawable.OVAL);
+
+            //TODO: update the spinner for the shape (boring)
+
+            //TODO: change the duplicate color hack
+            BitSkin skin = new GradientSkin(shape, new int[]{color, color}, GradientDrawable.SWEEP_GRADIENT, 60,60);
+            setSkin(skin, on);
+        }
+
+        public void setSkin(BitSkin bitSkin, Boolean on){
+            Log.i("ClockService", "setSkin");
+            for (int i=0; i < bitList.size() ; i++){
+                bitList.get(i).setSkin(bitSkin, on);
+            }
+        }
+
         private void askUpdate(){
             this.clockFace.setTime();
             AppWidgetManager mgr = AppWidgetManager.getInstance(context);
@@ -114,27 +143,13 @@ public class ClockService extends RemoteViewsService {
         @Override
         public void onDataSetChanged() {
             Log.i("callback", "onDatasetChanged()");
-
-            /*SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
-            this.rect = settings.getBoolean("rect", true);
-            if(this.rect){
-                this.bit_off_draw.setShape(GradientDrawable.RECTANGLE);
-                this.bit_on_draw.setShape(GradientDrawable.RECTANGLE);
-            }
-            else{
-                this.bit_off_draw.setShape(GradientDrawable.OVAL);
-                this.bit_on_draw.setShape(GradientDrawable.OVAL);
-            }
-            */
-            //this.bit_on = convertToBitmap(this.bit_on_draw, 60,60);
-            //this.bit_off = convertToBitmap(this.bit_off_draw, 60,60);
-
         }
 
         @Override
         public void onDestroy() {
             Log.i("callback", "onDestroy()");
-
+            //TODO: leak of the receiver ?
+            //unregisterReceiver(receiver);
             //close data source
         }
 
@@ -151,21 +166,6 @@ public class ClockService extends RemoteViewsService {
             if (position == AdapterView.INVALID_POSITION){
                 return null;
             }
-            int[] enabled = new int[] {-android.R.attr.state_enabled};
-            int[] disabled = new int[] {};
-            int [][] states = new int[][] {enabled, disabled};
-
-            //ColorStateList csl = new ColorStateList(states, new int[] {0x0, 0xffffff});
-
-            //ShapeDrawable bit = new ShapeDrawable();
-            //bit.setShape(new OvalShape());
-            //bit.setIntrinsicHeight(15);
-            //bit.setIntrinsicWidth(15);
-            //bit.setTintList(csl);
-            //ShapeDrawable bit_on = (ShapeDrawable) getResources().getDrawable(R.drawable.bit_on);
-            //bit_on.setColorFilter( 0xffff0000, PorterDuff.Mode.MULTIPLY );
-            //StateListDrawable sld = (StateListDrawable) getResources().getDrawable(R.drawable.bit);
-            //sld.addState(new int[] {-android.R.attr.state_enabled}, bit_on);
             RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.bit);
 
 

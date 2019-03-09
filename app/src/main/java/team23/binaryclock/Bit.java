@@ -27,4 +27,11 @@ public class Bit {
             this.skinOff = skin;
         }
     }
+
+    public BitSkin getSkin(Boolean on){
+        if (on){
+            return this.skinOn;
+        }
+        return this.skinOff;
+    }
 }

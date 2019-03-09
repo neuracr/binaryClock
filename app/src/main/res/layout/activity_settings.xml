@@ -26,6 +26,12 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             tools:text="@string/title" />
 
+        <Button
+            android:id="@+id/reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reload" />
+
         <TableLayout
             android:id="@+id/tablePreview"
             android:layout_width="match_parent"

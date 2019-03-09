@@ -9,6 +9,6 @@
     <string name="plus">+</string>
     <string name="color_hint">ARGB (FFAA9922)</string>
     <string name="bit_off_title">Bit off skin</string>
-
+    <string name="reload">reload</string>
 
 </resources>
