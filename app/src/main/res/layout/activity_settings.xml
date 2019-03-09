@@ -139,15 +139,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <EditText
-                    android:id="@+id/on_color_et"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="textCapWords"
-                    android:singleLine="true"
-                    tools:text="@string/color_hint" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <View
+                        android:id="@+id/pickedColorOn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:id="@+id/colorHexOn"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="0xFFFFFFFF"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -218,12 +227,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <View
-                    android:id="@+id/pickedColor"
+                    android:id="@+id/pickedColorOff"
                     android:layout_width="30dp"
                     android:layout_height="30dp" />
 
                     <TextView
-                        android:id="@+id/colorHex"
+                        android:id="@+id/colorHexOff"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:text="0xFFFFFFFF"

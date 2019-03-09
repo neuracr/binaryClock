@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.GradientDrawable;
 import android.net.LinkAddress;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,14 +47,21 @@ public class SettingsActivity extends AppCompatActivity {
         fillSpinner((Spinner) findViewById(R.id.on_shape_spinner));
         fillSpinner((Spinner) findViewById(R.id.off_shape_spinner));
 
-        //set the textView listeners
-        //((TextView) ((LinearLayout)findViewById(R.id.on_color_layout)).getChildAt(0)).addTextChangedListener(new NewColorChange());
+        //set the color textView listeners for the color popup
+        ((LinearLayout)((LinearLayout)findViewById(R.id.on_color_layout)).getChildAt(0)).getChildAt(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup(v);
+            }
+        });
         ((LinearLayout)((LinearLayout)findViewById(R.id.off_color_layout)).getChildAt(0)).getChildAt(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popup(v);
             }
         });
+
+        //load the user skins from the SharedPreferences
 
 
         //setups the preview
@@ -74,18 +82,6 @@ public class SettingsActivity extends AppCompatActivity {
         /*
         SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
         final SharedPreferences.Editor editor = settings.edit();
-
-
-
-        Switch sw = findViewById(R.id.rect_switch);
-        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                //commit prefs on change
-                editor.putBoolean("rect", isChecked);
-                editor.apply();
-            }
-        });
         */
     }
 
@@ -140,6 +136,19 @@ public class SettingsActivity extends AppCompatActivity {
         return skin;
     }
 
+    //update the UI and the previewBit attribute from the SharedPreferences
+    private void loadSkinFromPreferences(Boolean on, LinearLayout topLayout){
+        SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
+
+        //loads the bit_on data
+        int color = settings.getInt("bit_"+on.toString()+"_color", 0xFFAAAAAA);
+        int shape = settings.getInt("bit_"+on.toString()+"_shape", 0);
+
+        //set the text view for the color
+        LinearLayout oneColor = (LinearLayout) ((LinearLayout) ((LinearLayout) topLayout.getChildAt(1)).getChildAt(2)).getChildAt(0);
+        ((TextView) oneColor.getChildAt(1)).setText(Integer.toHexString(color).toUpperCase());
+    }
+
     //preview generated randomly
     private void updatePreview(){
         for (int i =0; i < this.tableLayout.getChildCount(); i++){
@@ -157,22 +166,6 @@ public class SettingsActivity extends AppCompatActivity {
         @ColorInt int colors[] = new int[]{colorLayout.getChildCount()};
         //TODO:code this
         return new int[] {0xFFFFFFFF};
-    }
-
-    private class NewColorChange implements TextWatcher {
-        //not used for me
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-        //not used for me
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) { }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            //generateSkin();
-            updatePreview();
-        }
     }
 
     @Override
