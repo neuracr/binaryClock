@@ -105,8 +105,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void popup(final View v) {
+        @ColorInt int initial_color =  Color.parseColor("#" + ((TextView) v).getText().toString());
+        Log.i("color", ""+Integer.toHexString(initial_color));
         new ColorPickerPopup.Builder(this)
-                .initialColor(0xFFFFFFFF)
+                .initialColor(initial_color)
                 .enableAlpha(true)
                 .okTitle("Choose")
                 .cancelTitle("Cancel")
