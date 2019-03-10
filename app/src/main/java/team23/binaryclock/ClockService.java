@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
@@ -25,10 +24,6 @@ public class ClockService extends RemoteViewsService {
     @Override
     public void onCreate(){
         super.onCreate();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("team23.binaryClock.changeSkin");
-        Log.i("ClockService","onCreate()");
-        //registerReceiver(receiver, filter);
     }
 
     @Override
@@ -45,11 +40,6 @@ public class ClockService extends RemoteViewsService {
             i++;
         }
         return bitList;
-    }
-
-    //this is called by the ClockWidget
-    public void setSkin(BitSkin bitSkin, Boolean on){
-        clockWidgetItemFactory.setSkin(bitSkin, on);
     }
 
 
@@ -69,7 +59,7 @@ public class ClockService extends RemoteViewsService {
         }
         @Override
         public void onCreate() {
-            Log.i("callback", "onCreate()");
+            //Log.i("callback", "onCreate()");
 
             loadSkinFromPreferences(true);
             loadSkinFromPreferences(false);
@@ -83,7 +73,7 @@ public class ClockService extends RemoteViewsService {
                         Thread.sleep(500);
                         //tries to land on the top of each second
                         while (true) {
-                            Log.i("Thread", "TICK");
+                            //Log.i("Thread", "TICK");
                             Calendar c = Calendar.getInstance();
                             int offset = c.get(Calendar.MILLISECOND);
 
@@ -114,15 +104,13 @@ public class ClockService extends RemoteViewsService {
             int color = settings.getInt("bit_"+on.toString()+"_color", 0xFFAAAAAA);
             int shape = settings.getInt("bit_"+on.toString()+"_shape", GradientDrawable.OVAL);
 
-            //TODO: update the spinner for the shape (boring)
-
             //TODO: change the duplicate color hack
             BitSkin skin = new GradientSkin(shape, new int[]{color, color}, GradientDrawable.SWEEP_GRADIENT, 60,60);
             setSkin(skin, on);
         }
 
         public void setSkin(BitSkin bitSkin, Boolean on){
-            Log.i("ClockService", "setSkin");
+            //Log.i("ClockService", "setSkin");
             for (int i=0; i < bitList.size() ; i++){
                 bitList.get(i).setSkin(bitSkin, on);
             }
@@ -137,27 +125,25 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            Log.i("callback", "onDatasetChanged()");
+            //Log.i("callback", "onDatasetChanged()");
         }
 
         @Override
         public void onDestroy() {
-            Log.i("callback", "onDestroy()");
-            //TODO: leak of the receiver ?
+            //Log.i("callback", "onDestroy()");
             this.t.interrupt();
-            //close data source
         }
 
         @Override
         public int getCount() {
-            Log.i("callback", "getCount()");
+            //Log.i("callback", "getCount()");
 
             return bitList.size();
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
-            Log.i("callback", "getViewAt("+position+")");
+            //Log.i("callback", "getViewAt("+position+")");
             if (position == AdapterView.INVALID_POSITION){
                 return null;
             }
@@ -173,8 +159,7 @@ public class ClockService extends RemoteViewsService {
 
             boolean on = this.clockFace.get(position%6, position/6);
             view.setImageViewBitmap(R.id.bitImage,  bitList.get(position).getBitmap(on));
-            Log.i("getViewAt","x:"+position%6 +", y:"+position/6+", pos:" + position + ", on:"+on);
-            //view.setBoolean(R.id.bitImage, "setEnabled", on);
+            //Log.i("getViewAt","x:"+position%6 +", y:"+position/6+", pos:" + position + ", on:"+on);
             return view;
         }
 
@@ -190,21 +175,21 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public RemoteViews getLoadingView() {
-            Log.i("callback", "getLoadingView()");
+            //Log.i("callback", "getLoadingView()");
 
             return null;
         }
 
         @Override
         public int getViewTypeCount() {
-            Log.i("callback", "getViewTypeCount()");
+            //Log.i("callback", "getViewTypeCount()");
 
             return 1;
         }
 
         @Override
         public long getItemId(int position) {
-            Log.i("callback", "getItemId() -> "+5000+position);
+            //Log.i("callback", "getItemId() -> "+5000+position);
             return 5000+position;
         }
 

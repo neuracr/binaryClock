@@ -25,7 +25,6 @@ public class SettingsActivity extends AppCompatActivity {
     private TableLayout tableLayout;
     private Random rand;
     private Bit previewBit; //used for the skin preview
-    private ClockService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +83,6 @@ public class SettingsActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     1);
         }
-        */
-
-        /*
-        SharedPreferences settings = getSharedPreferences("team23.binaryClock", 0);
-        final SharedPreferences.Editor editor = settings.edit();
         */
     }
 
