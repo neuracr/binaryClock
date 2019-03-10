@@ -6,9 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -61,6 +58,7 @@ public class ClockService extends RemoteViewsService {
         private Context context;
         private ClockFace clockFace;
         private Handler tickHandler;
+        private Thread t;
 
         ClockWidgetItemFactory(Context aContext,  List<Bit> bitList){
             this.context = aContext;
@@ -76,38 +74,35 @@ public class ClockService extends RemoteViewsService {
             loadSkinFromPreferences(true);
             loadSkinFromPreferences(false);
 
-            final Thread t = new Thread(new Runnable() {
+            //TODO: perf optimization, stop ticking when not showing ?
+            t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    int TICKS_IN_A_ROW = 50;
+                    int TICKS_IN_A_ROW = 1;
                     try {
                         Thread.sleep(500);
-                    }
-                    catch (Exception e){
-                    }
+                        //tries to land on the top of each second
+                        while (true) {
+                            Log.i("Thread", "TICK");
+                            Calendar c = Calendar.getInstance();
+                            int offset = c.get(Calendar.MILLISECOND);
 
-                    //tries to land on the top of each second
-                    while(true) {
-                        Calendar c = Calendar.getInstance();
-                        int offset = c.get(Calendar.MILLISECOND);
-
-                        long nextTime = SystemClock.uptimeMillis() + 1000 - offset;
-                        for (int i=0 ; i < TICKS_IN_A_ROW ; i++) {
-                            tickHandler.postAtTime(new Runnable() {
-                                @Override
-                                public void run() {
-                                    askUpdate();
-                                }
-                            }, nextTime + i * 1000);
-                        }
-                        try {
+                            long nextTime = SystemClock.uptimeMillis() + 1000 - offset;
+                            for (int i = 0; i < TICKS_IN_A_ROW; i++) {
+                                tickHandler.postAtTime(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        askUpdate();
+                                    }
+                                }, nextTime + i * 1000);
+                            }
                             Thread.sleep(TICKS_IN_A_ROW * 1000);
                         }
-                        catch (InterruptedException e){
-                        }
+                    } catch (InterruptedException e) {
+                        return;
                     }
                 }
-            });
+                });
             t.start();
 
         }
@@ -149,7 +144,7 @@ public class ClockService extends RemoteViewsService {
         public void onDestroy() {
             Log.i("callback", "onDestroy()");
             //TODO: leak of the receiver ?
-            //unregisterReceiver(receiver);
+            this.t.interrupt();
             //close data source
         }
 
@@ -183,7 +178,7 @@ public class ClockService extends RemoteViewsService {
             return view;
         }
 
-
+        /*
         public Bitmap convertToBitmap(Drawable drawable, int widthPixels, int heightPixels) {
             Bitmap mutableBitmap = Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(mutableBitmap);
@@ -191,7 +186,7 @@ public class ClockService extends RemoteViewsService {
             drawable.draw(canvas);
 
             return mutableBitmap;
-        }
+        }*/
 
         @Override
         public RemoteViews getLoadingView() {

@@ -16,13 +16,6 @@ import java.time.Clock;
  * Implementation of App Widget functionality.
  */
 public class ClockWidget extends AppWidgetProvider {
-    private final static int TICK_MESSAGE = 0;
-    private ClockFace clockFace;
-    private RemoteViews views = null;
-    private Thread t;
-    private Handler handler;
-    private AppWidgetManager appWidgetManager;
-    private  int appWidgetIds[];
 
     @Override
     public void onReceive(final Context context, Intent intent){
