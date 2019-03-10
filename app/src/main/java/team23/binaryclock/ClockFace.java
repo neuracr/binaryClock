@@ -1,7 +1,5 @@
 package team23.binaryclock;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -43,49 +41,8 @@ public class ClockFace{
             this.bitGrid.add(row);
         }
 
-        //Log.i("ClockFace", "number of rows:" + table.getChildCount());
-        //Log.i("ClockFace", "number of rows:" + ((TableRow)table.getChildAt(0)).getChildCount());
-
-        //ArrayList<View> column = getColumn(0);
-        //column.addAll(getColumn(1));
-        //this.h = new NumberFace(h_ids, 24, views);
-        //column = getColumn(2);
-        //column.addAll(getColumn(3));
-        //this.m = new NumberFace(m_ids, 60, views);
-        //column = getColumn(4);
-        //column.addAll(getColumn(5));
-        //this.s = new NumberFace(s_ids, 60, views);
-    }
-/*
-    public ClockFace(TableLayout table){
-        this.table = table;
-        Log.i("ClockFace", "number of rows:" + table.getChildCount());
-        Log.i("ClockFace", "number of rows:" + ((TableRow)table.getChildAt(0)).getChildCount());
-
-        ArrayList<View> column = getColumn(0);
-        column.addAll(getColumn(1));
-        this.h = new NumberFace(column, 24);
-        column = getColumn(2);
-        column.addAll(getColumn(3));
-        this.m = new NumberFace(column, 60);
-        column = getColumn(4);
-        column.addAll(getColumn(5));
-        this.s = new NumberFace(column, 60);
-        s.increment();
-        s.increment();
-        s.increment();
-        s.increment();
-        m.increment();
     }
 
-    private ArrayList<View> getColumn(int number){
-        ArrayList<View> column = new ArrayList<View>();
-        for (int i=0 ; i < this.table.getChildCount() ; i++){
-            column.add(((TableRow)this.table.getChildAt(i)).getChildAt(number));
-        }
-        return column;
-    }
-*/
     public void setTime(){
         Calendar now = Calendar.getInstance();
         int hour = now.get(Calendar.HOUR_OF_DAY);
@@ -103,7 +60,6 @@ public class ClockFace{
             return false;
         }
         NfBitTuple tuple = this.bitGrid.get(x).get(y);
-        //Log.i("ClockFace","getValue " + x + ", " + y + " val:" + tuple.getNf().getValue());
 
         return tuple.getNf().getBit(tuple.getBit());
     }

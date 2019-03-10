@@ -195,7 +195,7 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public boolean hasStableIds() {
-            Log.i("callback", "hasStableIds()");
+            //Log.i("callback", "hasStableIds()");
             return true;
         }
     }

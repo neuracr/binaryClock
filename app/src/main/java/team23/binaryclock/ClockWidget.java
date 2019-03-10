@@ -1,16 +1,12 @@
 package team23.binaryclock;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Handler;
 import android.widget.RemoteViews;
 
-import java.time.Clock;
 
 /**
  * Implementation of App Widget functionality.
@@ -41,82 +37,17 @@ public class ClockWidget extends AppWidgetProvider {
             views.setRemoteAdapter(R.id.face, intent);
             appWidgetManager.updateAppWidget(appWidgetId, views);
 
-
-            /*for (int appWidgetId : appWidgetIds){
-            Intent intent = new Intent(context, SettingsActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-            Intent serviceIntent = new Intent(context, ClockService.class);
-            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
-
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
-            views.setRemoteAdapter(R.id.face, serviceIntent);
-
-            appWidgetManager.updateAppWidget(appWidgetId, views);*/
         }
     }
 
     @Override
     public void onEnabled(Context context) {
-        /*// Enter relevant functionality for when the first widget is created
-        this.handler = new Handler(){
-            @Override
-            public void handleMessage(Message m){
-                super.handleMessage(m);
-
-                if (m.what == TICK_MESSAGE) {
-                    updateAll();
-                }
-            }
-        };*/
-        //this.views = new RemoteViews(context.getPackageName(), R.layout.widget_clock);
-        //this.clockFace = new ClockFace(views);
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
-
-/*
-    setContentView(R.layout.activity_settings);
-
-        this.clockFace = new ClockFace((TableLayout)findViewById(R.id.face));
-Sample application
-
-The code excerpts in this section are drawn from the StackWidget sample:
-
-
-    final Thread t = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            int TICKS_IN_A_ROW = 50;
-            //set the widget_clock for the first time
-            tick.sendEmptyMessage(TICK_MESSAGE);
-
-            //tries to land on the top of each second
-            while(true) {
-                Calendar c = Calendar.getInstance();
-                int offset = c.get(Calendar.MILLISECOND);
-
-                long nextTime = SystemClock.uptimeMillis() + 1000 - offset;
-                for (int i=0 ; i < TICKS_IN_A_ROW ; i++) {
-                    tick.sendEmptyMessageAtTime(TICK_MESSAGE, nextTime + i*1000);
-                }
-                try {
-                    Thread.sleep(TICKS_IN_A_ROW * 1000);
-                }
-                catch (InterruptedException e){
-                }
-            }
-        }
-    });
-        t.start();
-
-*/
-
-
 
 }
 

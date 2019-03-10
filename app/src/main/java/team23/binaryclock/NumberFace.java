@@ -1,11 +1,5 @@
 package team23.binaryclock;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.RemoteViews;
-
-import java.math.RoundingMode;
-import java.util.ArrayList;
 
 public class NumberFace {
     private int modulo;
@@ -21,19 +15,7 @@ public class NumberFace {
             bits[id] = false;
         }
     }
-/*
-    public void increment(){
-        for (int i=bits.size()-1; i>=0; i--){
-            if (!bits.get(i).isActivated()){
-                bits.get(i).setActivated(true);
-                break;
-            }
-            else{
-                bits.get(i).setActivated(false);
-            }
-        }
-    }
-*/
+
     public void setNumber(int value){
         int i=0;
         this.value = value;
