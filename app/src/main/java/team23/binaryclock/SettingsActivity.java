@@ -1,37 +1,22 @@
 package team23.binaryclock;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.net.LinkAddress;
-import android.os.IBinder;
-import android.os.TestLooperManager;
-import android.speech.tts.TextToSpeech;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.text.BoringLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.Random;
 
 import top.defaults.colorpicker.ColorPickerPopup;
@@ -55,6 +40,9 @@ public class SettingsActivity extends AppCompatActivity {
         //updates the spinners
         fillSpinner((Spinner) findViewById(R.id.on_shape_spinner));
         fillSpinner((Spinner) findViewById(R.id.off_shape_spinner));
+        setSpinnerCallback((Spinner) findViewById(R.id.on_shape_spinner));
+        setSpinnerCallback((Spinner) findViewById(R.id.off_shape_spinner));
+
 
         //set the color textView listeners for the color popup
         ((LinearLayout)((LinearLayout)findViewById(R.id.on_color_layout)).getChildAt(0)).getChildAt(1).setOnClickListener(new View.OnClickListener() {
@@ -143,6 +131,28 @@ public class SettingsActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
+    private void setSpinnerCallback(final Spinner sp){
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //ask for the preview and persistance
+                LinearLayout topLayout = (LinearLayout) sp.getParent().getParent();
+                if (topLayout.getId() == R.id.bit_on){
+                    previewBit.setSkin(generateSkin(topLayout, true), true);
+                }
+                else{
+                    previewBit.setSkin(generateSkin(topLayout, false), false);
+                }
+                updatePreview();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
     //genererate a BitSkin object based on the data in the layout and saves it into the SharedPreferences
     //the topLayout should correspond to the boolean bit (bit on or off)
     private BitSkin generateSkin(LinearLayout topLayout, Boolean on){
@@ -190,10 +200,21 @@ public class SettingsActivity extends AppCompatActivity {
         oneColor.getChildAt(0).setBackgroundColor(color);
 
         //TODO: update the spinner for the shape (boring)
+        setSpinnerPosition((Spinner) ((LinearLayout)topLayout.getChildAt(2)).getChildAt(1), shape);
+
 
         //TODO: change the duplicate color hack
         BitSkin skin = new GradientSkin(shape, new int[]{color, color}, GradientDrawable.SWEEP_GRADIENT, 60,60);
         previewBit.setSkin(skin, on);
+    }
+
+    private void setSpinnerPosition(Spinner sp, int shape){
+        if (shape == GradientDrawable.RECTANGLE){
+            sp.setSelection(0);
+        }
+        else{
+            sp.setSelection(1);
+        }
     }
 
     //preview generated randomly
