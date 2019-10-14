@@ -20,27 +20,28 @@ public class ClockFace{
         this.bitGrid = new ArrayList<>(6);
         for (int i=0; i < 6 ; i++){
             ArrayList<NfBitTuple> row = new ArrayList<NfBitTuple>(4);
-            if (i/2 == 0) {
-                row.add(new NfBitTuple(this.h, 7-(i%2)*4));
-                row.add(new NfBitTuple(this.h, 6-(i%2)*4));
-                row.add(new NfBitTuple(this.h, 5-(i%2)*4));
-                row.add(new NfBitTuple(this.h, 4-(i%2)*4));
-            }
-            else if(i/2 == 1){
-                row.add(new NfBitTuple(this.m, 7-(i%2)*4));
-                row.add(new NfBitTuple(this.m, 6-(i%2)*4));
-                row.add(new NfBitTuple(this.m, 5-(i%2)*4));
-                row.add(new NfBitTuple(this.m, 4-(i%2)*4));
-            }
-            else if(i/2 == 2){
-                row.add(new NfBitTuple(this.s, 7-(i%2)*4));
-                row.add(new NfBitTuple(this.s, 6-(i%2)*4));
-                row.add(new NfBitTuple(this.s, 5-(i%2)*4));
-                row.add(new NfBitTuple(this.s, 4-(i%2)*4));
+            switch(i/2) {
+                case(0):
+                    row = this.addRows(row, i, this.h);
+                    break;
+                case(1):
+                    row = this.addRows(row, i, this.m);
+                    break;
+                case(2):
+                    row = this.addRows(row, i, this.s);
+                    break;
             }
             this.bitGrid.add(row);
         }
 
+    }
+
+    /* Factorised Method to add bit tuple in an Array */
+    private ArrayList<NfBitTuple> addRows(ArrayList<NfBitTuple> row, int i, NumberFace timeValue) {
+        row.add(new NfBitTuple(timeValue, 7-(i%2)*4));
+        row.add(new NfBitTuple(timeValue, 6-(i%2)*4));
+        row.add(new NfBitTuple(timeValue, 5-(i%2)*4));
+        row.add(new NfBitTuple(timeValue, 4-(i%2)*4));
     }
 
     public void setTime(){
