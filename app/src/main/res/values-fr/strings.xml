@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Horloge Binaire</string>
+    <string name="dot">Point</string>
+    <string name="add_widget">Ajouter un Widget</string>
+    <string name="title">Paramètres de l'horloge binaire</string>
+    <string name="bit_on_title">Visuel du bit 1</string>
+    <string name="color">Couleur</string>
+    <string name="shape">Forme</string>
+    <string name="plus">+</string>
+    <string name="color_hint">ARGB (FFAA9922)</string>
+    <string name="bit_off_title">Visuel du bit 0</string>
+    <string name="reload">recharger</string>
+
+</resources>

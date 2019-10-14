@@ -59,7 +59,6 @@ public class ClockService extends RemoteViewsService {
         }
         @Override
         public void onCreate() {
-            //Log.i("callback", "onCreate()");
 
             loadSkinFromPreferences(true);
             loadSkinFromPreferences(false);
@@ -73,7 +72,6 @@ public class ClockService extends RemoteViewsService {
                         Thread.sleep(500);
                         //tries to land on the top of each second
                         while (true) {
-                            //Log.i("Thread", "TICK");
                             Calendar c = Calendar.getInstance();
                             int offset = c.get(Calendar.MILLISECOND);
 
@@ -110,7 +108,6 @@ public class ClockService extends RemoteViewsService {
         }
 
         public void setSkin(BitSkin bitSkin, Boolean on){
-            //Log.i("ClockService", "setSkin");
             for (int i=0; i < bitList.size() ; i++){
                 bitList.get(i).setSkin(bitSkin, on);
             }
@@ -125,77 +122,52 @@ public class ClockService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            //Log.i("callback", "onDatasetChanged()");
         }
 
         @Override
         public void onDestroy() {
-            //Log.i("callback", "onDestroy()");
             this.t.interrupt();
         }
 
         @Override
         public int getCount() {
-            //Log.i("callback", "getCount()");
-
             return bitList.size();
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
-            //Log.i("callback", "getViewAt("+position+")");
             if (position == AdapterView.INVALID_POSITION){
                 return null;
             }
             RemoteViews view = new RemoteViews(context.getPackageName(), R.layout.bit);
-
-
 
             ////// To load an image from the external storage
             //Bitmap bm = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getPath() + "/icon.png");
             //view.setImageViewBitmap(R.id.bitImage,  bm);
             ////////
 
-
             boolean on = this.clockFace.get(position%6, position/6);
             view.setImageViewBitmap(R.id.bitImage,  bitList.get(position).getBitmap(on));
-            //Log.i("getViewAt","x:"+position%6 +", y:"+position/6+", pos:" + position + ", on:"+on);
             return view;
         }
 
-        /*
-        public Bitmap convertToBitmap(Drawable drawable, int widthPixels, int heightPixels) {
-            Bitmap mutableBitmap = Bitmap.createBitmap(widthPixels, heightPixels, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(mutableBitmap);
-            drawable.setBounds(0, 0, widthPixels, heightPixels);
-            drawable.draw(canvas);
-
-            return mutableBitmap;
-        }*/
-
         @Override
         public RemoteViews getLoadingView() {
-            //Log.i("callback", "getLoadingView()");
-
             return null;
         }
 
         @Override
         public int getViewTypeCount() {
-            //Log.i("callback", "getViewTypeCount()");
-
             return 1;
         }
 
         @Override
         public long getItemId(int position) {
-            //Log.i("callback", "getItemId() -> "+5000+position);
             return 5000+position;
         }
 
         @Override
         public boolean hasStableIds() {
-            //Log.i("callback", "hasStableIds()");
             return true;
         }
     }
